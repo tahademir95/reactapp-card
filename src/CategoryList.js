@@ -13,7 +13,12 @@ class CategoryList extends Component {
                 categoryId: 2,
                 categoryName: "Condiments"
             }
-        ]
+        ],
+        currentCategory: ""
+    }
+
+    changeCategory = (category) => {
+        this.setState({currentCategory: category.categoryName})
     }
 
     render() {
@@ -23,10 +28,13 @@ class CategoryList extends Component {
                 <ListGroup>
                     {
                         this.state.categories.map(category => (
-                            <ListGroupItem key={category.categoryId}>{category.categoryName}</ListGroupItem>
+                            <ListGroupItem key={category.categoryId} onClick={() => this.changeCategory(category)}>
+                                {category.categoryName}
+                            </ListGroupItem>
                         ))
                     }
                 </ListGroup>
+                <h4>{this.state.currentCategory}</h4>
             </div>
         );
     }
