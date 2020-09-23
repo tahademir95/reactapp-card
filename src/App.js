@@ -14,7 +14,19 @@ class App extends Component {
     //App'e taşındı. Şimdi App üzerinden productList'e data transferi yapılabilecek. Yani CategoryList'teki bir category'e tıklandığında
     //o category'e adit product'lar görüntülenebilecek
     state = {
-        currentCategory: ""
+        currentCategory: "",
+        products: []
+    }
+
+    componentDidMount() {
+        this.getProducts();
+    }
+
+
+    getProducts = () => {
+        fetch("http://localhost:3000/products")
+            .then(response => response.json())
+            .then(data => this.setState({products: data}) )
     }
 
     changeCategory = category => {
@@ -35,7 +47,7 @@ class App extends Component {
                             <CategoryList info={categoryInfo} changeCategory={this.changeCategory} currentCategory={this.state.currentCategory} />
                         </Col>
                         <Col xs="9">
-                            <ProductList info={productInfo} currentCategory={this.state.currentCategory} />
+                            <ProductList info={productInfo} currentCategory={this.state.currentCategory} products={this.state.products} />
                         </Col>
                     </Row>
                 </Container>

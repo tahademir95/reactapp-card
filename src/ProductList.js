@@ -1,12 +1,37 @@
 import React, {Component} from 'react';
+import {ListGroup, ListGroupItem, Table} from "reactstrap";
 
 class ProductList extends Component {
 
-    //props a erişmek için constructor ı eklemek zorunda değilsin
     render() {
         return (
             <div>
                 <h3>{this.props.info.title} - {this.props.currentCategory}</h3>
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>Product Id</th>
+                        <th>Product Name</th>
+                        <th>Quantity Per Unit</th>
+                        <th>Unit Price</th>
+                        <th>Units In Stock</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.props.products.map(product => (
+                            <tr key={product.id}>
+                                <th scope="row">{product.id}</th>
+                                <td>{product.productName}</td>
+                                <td>{product.quantityPerUnit}</td>
+                                <td>{product.unitPrice}</td>
+                                <td>{product.unitsInStock}</td>
+                            </tr>
+                        ))
+                    }
+
+                    </tbody>
+                </Table>
             </div>
         );
     }
