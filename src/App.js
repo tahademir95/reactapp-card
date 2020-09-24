@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Navbar from "./Navbar";
+import NavigationBar from "./NavigationBar";
 import CategoryList from "./CategoryList";
 import ProductList from "./ProductList";
 import {Container, Row, Col} from 'reactstrap';
@@ -15,7 +15,8 @@ class App extends Component {
     //o category'e adit product'lar görüntülenebilecek
     state = {
         currentCategory: "",
-        products: []
+        products: [],
+        cart: []
     }
 
     componentDidMount() {
@@ -39,21 +40,30 @@ class App extends Component {
         this.getProducts(category.id);
     }
 
+    addToCart = (product) => {
+        let newCart = this.state.cart;
+        var addedItem = newCart.find(c => c.product.id === product.id);     // daha önce aynı ürün eklenmişmi, onun kontrolünü yapar
+        if (addedItem){
+            addedItem.quantity += 1;
+        }else {
+            newCart.push({product: product, quantity:1});
+        }
+        this.setState({cart: newCart});
+    }
+
     render(){
         let productInfo = {title: "Product List"}
         let categoryInfo = {title: "Category List"}
         return (
             <div>
                 <Container>
-                    <Row>
-                        <Navbar />
-                    </Row>
+                    <NavigationBar cart={this.state.cart}/>
                     <Row>
                         <Col xs="3">
                             <CategoryList info={categoryInfo} changeCategory={this.changeCategory} currentCategory={this.state.currentCategory} />
                         </Col>
                         <Col xs="9">
-                            <ProductList info={productInfo} currentCategory={this.state.currentCategory} products={this.state.products} />
+                            <ProductList info={productInfo} currentCategory={this.state.currentCategory} products={this.state.products} addToCart={this.addToCart} />
                         </Col>
                     </Row>
                 </Container>
